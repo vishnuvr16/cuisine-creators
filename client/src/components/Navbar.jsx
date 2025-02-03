@@ -103,7 +103,7 @@ const Navbar = () => {
     }
 
     if (isSignUp) {
-      if (!formData.name) {
+      if (!formData.username) {
         dispatch(registerFailure('Please enter your name'));
         return false;
       }
@@ -111,7 +111,7 @@ const Navbar = () => {
         dispatch(registerFailure('Passwords do not match'));
         return false;
       }
-      if (formData.password.length < 8) {
+      if (formData.password.length < 6) {
         dispatch(registerFailure('Password must be at least 8 characters long'));
         return false;
       }
@@ -147,6 +147,7 @@ const Navbar = () => {
           password: formData.password
         }),
       });
+      console.log("response",response);
 
       const data = await response.json();
 

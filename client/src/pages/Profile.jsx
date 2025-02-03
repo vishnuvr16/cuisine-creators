@@ -55,7 +55,7 @@ const ProfilePage = () => {
     const fetchContent = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${SummaryApi.defaultUrl}/api/profile/content/${activeTab}`, {
+        const response = await fetch(`${SummaryApi.defaultUrl}/api/users/profile/content/${activeTab}`, {
           method: 'GET',
           credentials: 'include',
           headers: {

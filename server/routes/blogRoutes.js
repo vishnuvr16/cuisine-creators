@@ -5,7 +5,8 @@ import {
     getFeaturedBlogs,
     toggleBlogLike,
     saveBlog,
-    incrementBlogViews
+    incrementBlogViews,
+    getBlog
 } from "../controllers/blogController.js";
 import { verifyJWT } from "../middlewares/authMiddleware.js";
 
@@ -14,6 +15,7 @@ const router = Router();
 // Public routes
 router.route("/").get(getAllBlogs);
 router.route("/featured").get(getFeaturedBlogs);
+router.route("/:id").get(getBlog);
 router.route("/:blogId/views").post(incrementBlogViews);
 
 // Protected routes

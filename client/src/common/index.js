@@ -1,4 +1,4 @@
-const backendDomin = `${process.env.REACT_APP_API_URL}` || "http://localhost:8000";
+const backendDomin = `${process.env.REACT_APP_BACKEND_URL}` || "http://localhost:8000";
 
 const SummaryApi = {
   register: {

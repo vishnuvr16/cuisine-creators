@@ -193,7 +193,7 @@ export const getBlog = async (req, res) => {
     try {
       const blog = await Blog.findById(req.params.id)
         .populate('author', 'username avatar')
-        .populate('comments.user', 'name avatar');
+        // .populate('comments.user', 'name avatar');
   
       if (!blog) {
         return res.status(404).json({ error: 'Blog post not found' });

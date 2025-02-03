@@ -21,7 +21,7 @@ export const registerUser = async (req, res) => {
     try {
         const { email, username, password } = req.body;
 
-        if ( !email || !username || !password || !avatarLocalPath) {
+        if ( !email || !username || !password) {
             throw new ApiError(400, "All fields are required");
         }
 

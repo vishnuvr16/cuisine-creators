@@ -11,11 +11,11 @@ import SummaryApi from '../common';
 const Blogs = () => {
   const categories = [
     { name: 'All', icon: Filter },
-    {name: 'Breakfast',icon: Coffee},
+    {name: 'lunch',icon: Coffee},
     { name: 'Healthy Eating', icon: Lightbulb },
     { name: 'Quick Recipes', icon: Utensils },
     { name: 'Veg Recipes', icon: BookOpen },
-    { name: 'Non-veg Recipes', icon: Coffee },
+    { name: 'Non-veg', icon: Coffee },
     { name: 'Desserts', icon: Star }
   ];
   const {isAuthenticated} = useSelector(state => state.auth);
@@ -42,21 +42,26 @@ const Blogs = () => {
       setLoading(true);
       const url = new URL(`${SummaryApi.defaultUrl}/api/blogs`);
       url.searchParams.append('page', pageNum);
-      url.searchParams.append('limit', 6);
+      url.searchParams.append('limit', 6); // Adjust limit as needed
       if (category !== 'All') {
         url.searchParams.append('category', category);
       }
-
-      const response = await fetch(url, { credentials: 'include' });
-      if (!response.ok) throw new Error('Failed to fetch blogs');
-
-      const data = await response.json();
-      if (pageNum === 1) {
-        setBlogs(data.blogs);
-      } else {
-        setBlogs(prev => [...prev, ...data.blogs]);
+      console.log(url);
+      const response = await fetch(url, { method: 'GET', credentials: 'include' });
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch blogs');
       }
-      setHasMore(data.blogs.length === 6);
+  
+      const result = await response.json(); // Parse JSON here
+  
+      if (pageNum === 1) {
+        setBlogs(result.data.blogs); // Access the blogs from the nested response
+      } else {
+        setBlogs(prev => [...prev, ...result.data.blogs]);
+      }
+      
+      setHasMore(result.data.blogs.length > 0); // Handle empty results
       setError(null);
     } catch (err) {
       setError('Failed to load blogs. Please try again later.');
@@ -65,6 +70,7 @@ const Blogs = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     setPage(1);
@@ -208,7 +214,7 @@ const Blogs = () => {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogs.map((blog) => (
+          {blogs && blogs.map((blog) => (
             <BlogCard key={blog._id} blog={blog} />
           ))}
         </div>
